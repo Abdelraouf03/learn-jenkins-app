@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        NETLIFY_SITE_ID = '585d92bc-e13a-46b8-8cfa-f1f8db0eb348'
+    }
+
     stages {
 
         stage('Build') {
@@ -40,7 +44,7 @@ pipeline {
                     }
                     post {
                         always {
-                            junit 'test-results/junit.xml'
+                            junit 'jest-results/junit.xml'
                         }
                     }
                 }
@@ -82,6 +86,7 @@ pipeline {
                 sh '''
                     npm install netlify-cli@20.1.1
                     node_modules/.bin/netlify --version
+                    echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
                 '''
             }
         }
